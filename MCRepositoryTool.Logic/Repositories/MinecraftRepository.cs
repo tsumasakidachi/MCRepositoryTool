@@ -141,6 +141,8 @@ namespace MCRepositoryTool.Logic.Repositories
 
                         try
                         {
+                            var createdDate = GetLogFileCreatedDate(logFileInfo);
+
                             foreach (var l in GetLines(logFileInfo))
                             {
                                 // エンコードを変換する
@@ -154,7 +156,6 @@ namespace MCRepositoryTool.Logic.Repositories
                                 if (!Regex.IsMatch(match.Groups[5].Value, @"\[CHAT\]")) continue;
 
                                 // ログの日付を作成する
-                                var createdDate = GetLogFileCreatedDate(logFileInfo);
                                 int hour = int.Parse(match.Groups[1].Value);
                                 int minute = int.Parse(match.Groups[2].Value);
                                 int second = int.Parse(match.Groups[3].Value);
@@ -199,6 +200,7 @@ namespace MCRepositoryTool.Logic.Repositories
                             yield return line;
                         }
                     }
+
                     break;
                 case ".log":
                     using (var stream = source.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
