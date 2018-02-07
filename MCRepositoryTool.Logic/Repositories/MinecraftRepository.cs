@@ -187,31 +187,31 @@ namespace MCRepositoryTool.Logic.Repositories
         {
             string line = null;
 
-                switch (source.Extension)
-                {
-                    case ".gz":
-                        using (var compressedStream = source.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                        using (var stream = new GZipStream(compressedStream, CompressionMode.Decompress))
-                        using (var reader = new StreamReader(stream, MinecraftEncoding))
+            switch (source.Extension)
+            {
+                case ".gz":
+                    using (var compressedStream = source.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using (var stream = new GZipStream(compressedStream, CompressionMode.Decompress))
+                    using (var reader = new StreamReader(stream, MinecraftEncoding))
+                    {
+                        while ((line = reader.ReadLine()) != null)
                         {
-                            while ((line = reader.ReadLine()) != null)
-                            {
-                                yield return line;
-                            }
+                            yield return line;
                         }
-                        break;
-                    case ".log":
-                        using (var stream = source.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                        using (var reader = new StreamReader(stream, MinecraftEncoding))
+                    }
+                    break;
+                case ".log":
+                    using (var stream = source.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using (var reader = new StreamReader(stream, MinecraftEncoding))
+                    {
+                        while ((line = reader.ReadLine()) != null)
                         {
-                            while ((line = reader.ReadLine()) != null)
-                            {
-                                yield return line;
-                            }
+                            yield return line;
                         }
+                    }
 
-                        break;
-                }
+                    break;
+            }
         }
 
         private string FilterLine(string line)
